@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.1"
+  },
+  "name": "groundswatch",
+  "description": "**GroundsWatch is a platform that connects hosts and event organizers to different venues. It features information about the venues like images, reviews, capacity, and prices.**",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
