@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Eventground</title>
+</head>
+
+<body>
+    <h1>Edit Event Ground</h1>
+    <form action="/eventgrounds/<%= eventground._id %>?_method=PUT" method="POST">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="eventground[title]" value="<%= eventground.title %>">
+        </div>
+        <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" name="eventground[location]" value="<%= eventground.location %>">
+        </div>
+        <button>Edit Event Ground</button>
+    </form>
+    <a href="/eventgrounds/<%= eventground._id %>">Back to Event Ground</a>
+
+</body>
+
+</html>

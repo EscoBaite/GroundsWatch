@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 
 app.get('/eventgrounds', async (req, res) => {
     const eventgrounds = await Eventground.find({})
-    res.render('eventgrounds/index.ejs', { eventgrounds })
+    res.render('eventgrounds/index', { eventgrounds })
 })
 
 app.get('/eventgrounds/new', (req, res) => {
@@ -41,10 +41,26 @@ app.post('/eventgrounds', async (req, res) => {
 })
 
 app.get('/eventgrounds/:id', async (req, res) => {
-    const evtground = await Eventground.findById(req.params.id)
-    res.render('eventgrounds/details.ejs', {evtground})
+    const eventground = await Eventground.findById(req.params.id)
+    res.render('eventgrounds/details', {eventground})
 })
 
+app.get('/eventgrounds/:id/edit', async (req, res) => {
+    const eventground = await Eventground.findById(req.params.id)
+    res.render('eventgrounds/edit', {eventground})
+})
+
+app.put('/eventgrounds/:id', async (req, res) => {
+    const { id } = req.params;
+    const eventground = await Eventground.findByIdAndUpdate(id, { ...req.body.eventground });
+    res.redirect(`/eventgrounds/${eventground._id}`)
+});
+
+app.delete('/eventgrounds/:id', async (req, res) => {
+    const { id } = req.params;
+    await Eventground.findByIdAndDelete(id);
+    res.redirect('/eventgrounds');
+})
 
 
 app.listen(3000, () => {

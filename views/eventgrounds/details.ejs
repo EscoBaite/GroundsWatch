@@ -7,9 +7,20 @@
     <title>Details</title>
 </head>
 <body>
-    <h1><%= evtground.title %></h1>
-    <h2><%= evtground.location %></h2>
+    <h1><%= eventground.title %></h1>
+    <h2><%= eventground.location %></h2>
+
+    <p>
+        <a href="/eventgrounds/<%= eventground._id %>/edit">Edit</a>
+    </p>
+    <p>
+        <form action="/eventgrounds/<%= eventground._id %>?_method=DELETE" method="POST">
+            <button>DELETE</button>
+        </form>
+        
+    </p>
     <footer>
+
         <a href="/eventgrounds">All Event Grounds</a>
     </footer>
 
