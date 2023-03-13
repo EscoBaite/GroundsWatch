@@ -16,15 +16,17 @@ mongoose.connect('mongodb://127.0.0.1:27017/groundswatch', { useCreateIndex: tru
         console.log(err)
     })
 
-app.listen(3000, () => {
-    console.log('Listening on port 3000')
-})
-
 app.get('/', (req, res) => {
     res.render('home')
 })
-app.get('/makeground', async (req, res) => {
-    const eventG = new Eventground({title: 'My Yard', description: 'Cold'})
-    await eventG.save()
-    res.send(eventG)
+
+app.get('/eventgrounds', async (req, res) => {
+    const eventgrounds = await Eventground.find({})
+    res.render('eventgrounds/index.ejs', { eventgrounds })
+})
+
+
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000')
 })
