@@ -8,6 +8,9 @@
 </head>
 <body>
     <h1>Event Grounds</h1>
+    <div>
+        <a href="/eventgrounds/new">Add new Event Ground</a>
+    </div>
     <ul>
         <% for (let eventground of eventgrounds){%>
             <li><a href="/eventgrounds/<%= eventground._id %>"><%= eventground.title %></a></li>
