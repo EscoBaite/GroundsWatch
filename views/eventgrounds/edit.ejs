@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Eventground</title>
-</head>
-
-<body>
+<% layout('layouts/boilerplate') %>
     <h1>Edit Event Ground</h1>
     <form action="/eventgrounds/<%= eventground._id %>?_method=PUT" method="POST">
         <div>
@@ -21,7 +12,3 @@
         <button>Edit Event Ground</button>
     </form>
     <a href="/eventgrounds/<%= eventground._id %>">Back to Event Ground</a>
-
-</body>
-
-</html>
