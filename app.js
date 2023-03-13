@@ -25,6 +25,11 @@ app.get('/eventgrounds', async (req, res) => {
     res.render('eventgrounds/index.ejs', { eventgrounds })
 })
 
+app.get('/eventgrounds/:id', async (req, res) => {
+    const evtground = await Eventground.findById(req.params.id)
+    res.render('eventgrounds/details.ejs', {evtground})
+})
+
 
 
 app.listen(3000, () => {

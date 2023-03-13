@@ -10,7 +10,7 @@
     <h1>Event Grounds</h1>
     <ul>
         <% for (let eventground of eventgrounds){%>
-            <li><%= eventground.title %></li>
+            <li><a href="/eventgrounds/<%= eventground._id %>"><%= eventground.title %></a></li>
         <% } %>
     </ul>
 </body>
