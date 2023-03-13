@@ -1,17 +1,26 @@
 {
-  "dependencies": {
-    "ejs": "^3.1.8",
-    "express": "^4.18.2",
-    "mongoose": "^7.0.1"
-  },
-  "name": "groundswatch",
-  "description": "**GroundsWatch is a platform that connects hosts and event organizers to different venues. It features information about the venues like images, reviews, capacity, and prices.**",
+  "name": "GroundsWatch",
   "version": "1.0.0",
-  "main": "app.js",
+  "description": "**Grounds Watch is a platform that connects hosts and event organizers to different venues. It features information about the venues like images, reviews, capacity, and prices.**",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EscoBaite/GroundsWatch.git"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EscoBaite/GroundsWatch/issues"
+  },
+  "homepage": "https://github.com/EscoBaite/GroundsWatch#readme",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.13.16"
+  }
 }
