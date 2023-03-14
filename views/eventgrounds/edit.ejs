@@ -2,25 +2,25 @@
     <div class="row">
         <h1 class="text-center">Edit Event Ground</h1>
         <div class="col-6 offset-3">
-            <form action="/eventgrounds/<%= eventground._id %>?_method=PUT" method="POST">
+            <form action="/eventgrounds/<%= eventground._id %>?_method=PUT" method="POST" novalidate class="newGrounds">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" id="title" name="eventground[title]" value="<%= eventground.title %>">
+                    <input class="form-control" type="text" id="title" name="eventground[title]" value="<%= eventground.title %>" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="location">Location</label>
-                    <input class="form-control" type="text" id="location" name="eventground[location]" value="<%= eventground.location %>">
+                    <input class="form-control" type="text" id="location" name="eventground[location]" value="<%= eventground.location %>" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="image">Image URL</label>
-                    <input class="form-control" type="text" id="image" name="eventground[image]" value="<%= eventground.image %>">
+                    <input class="form-control" type="text" id="image" name="eventground[image]" value="<%= eventground.image %>" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="price">Eventground Price</label>
                     <div class="input-group">
                         <span class="input-group-text" id="price-label">$</span>
                         <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
-                            aria-describedby="price-label" name="eventground[price]" value="<%= eventground.price %>">
+                            aria-describedby="price-label" name="eventground[price]" value="<%= eventground.price %>" required>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -28,12 +28,12 @@
                     <div class="input-group">
                         <span class="input-group-text" id="capacity-label">People</span>
                         <input type="text" class="form-control" id="capacity" placeholder="0" aria-label="capacity"
-                            aria-describedby="capacity-label" name="eventground[capacity]" value="<%= eventground.capacity %>">
+                            aria-describedby="capacity-label" name="eventground[capacity]" value="<%= eventground.capacity %>" required>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
-                    <textarea class="form-control" type="text" id="description" name="eventground[description]"><%= eventground.description %></textarea>
+                    <textarea class="form-control" type="text" id="description" name="eventground[description]" required><%= eventground.description %></textarea>
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-info">Update Event Ground</button>
