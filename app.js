@@ -3,6 +3,8 @@ const app = express()
 const path = require('path')
 const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
+const catchAsync = require('./utils/catchAsync')
+const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 const Eventground = require('./models/eventground')
 
@@ -27,41 +29,51 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/eventgrounds', async (req, res) => {
+app.get('/eventgrounds', catchAsync(async (req, res) => {
     const eventgrounds = await Eventground.find({})
     res.render('eventgrounds/index', { eventgrounds })
-})
+}))
 
 app.get('/eventgrounds/new', (req, res) => {
     res.render('eventgrounds/new');
 })
 
-app.post('/eventgrounds', async (req, res) => {
+app.post('/eventgrounds', catchAsync(async (req, res) => {
     const eventground = new Eventground(req.body.eventground);
     await eventground.save();
     res.redirect(`/eventgrounds/${eventground._id}`)
-})
+}))
 
-app.get('/eventgrounds/:id', async (req, res) => {
+app.get('/eventgrounds/:id', catchAsync(async (req, res) => {
     const eventground = await Eventground.findById(req.params.id)
     res.render('eventgrounds/details', {eventground})
-})
+}))
 
-app.get('/eventgrounds/:id/edit', async (req, res) => {
+app.get('/eventgrounds/:id/edit', catchAsync(async (req, res) => {
     const eventground = await Eventground.findById(req.params.id)
     res.render('eventgrounds/edit', {eventground})
-})
+}))
 
-app.put('/eventgrounds/:id', async (req, res) => {
+app.put('/eventgrounds/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     const eventground = await Eventground.findByIdAndUpdate(id, { ...req.body.eventground });
     res.redirect(`/eventgrounds/${eventground._id}`)
-});
+}))
 
-app.delete('/eventgrounds/:id', async (req, res) => {
+app.delete('/eventgrounds/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Eventground.findByIdAndDelete(id);
     res.redirect('/eventgrounds');
+}))
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
+})
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+    res.status(statusCode).render('error', { err })
 })
 
 
