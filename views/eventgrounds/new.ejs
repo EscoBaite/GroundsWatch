@@ -1,13 +1,44 @@
 <% layout('layouts/boilerplate') %>
-    <form action="/eventgrounds" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="eventground[title]">
-        </div>
-        <div>
-            <label for="location">Location</label>
-            <input type="text" id="location" name="eventground[location]">
-        </div>
-        <button>Add Event Ground</button>
-    </form>
-    <a href="/eventgrounds">All Event Grounds</a>
+   <div class="row">
+    <h1 class="text-center">New Event Ground</h1>
+    <div class="col-6 offset-3">
+        <form action="/eventgrounds" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="eventground[title]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="eventground[location]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image URL</label>
+                <input class="form-control" type="text" id="image" name="eventground[image]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Eventground Price</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
+                        aria-describedby="price-label" name="eventground[price]">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="capacity">Eventground Capacity</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="capacity-label">People</span>
+                    <input type="text" class="form-control" id="capacity" placeholder="0" aria-label="capacity"
+                        aria-describedby="capacity-label" name="eventground[capacity]">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="eventground[description]"></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add Event Ground</button>
+            </div>
+        </form>
+        <a href="/eventgrounds">All Event Grounds</a>
+    </div>
+   </div>

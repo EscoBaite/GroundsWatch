@@ -3,8 +3,22 @@
     <div>
         <a href="/eventgrounds/new">Add new Event Ground</a>
     </div>
-    <ul>
-        <% for (let eventground of eventgrounds){%>
-            <li><a href="/eventgrounds/<%= eventground.id %>"><%= eventground.title %></a></li>
-        <% } %>
-    </ul>
+    <% for (let eventground of eventgrounds){%>
+        <div class="card mb-3" >
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="" src="<%=eventground.image%>">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= eventground.title %> </h5>
+                        <p class="card-text"><%= eventground.description %></p>
+                        <p class="card-text">
+                            <small class="text-muted"><%= eventground.location%></small>
+                        </p>
+                        <a class="btn btn-primary" href="/eventgrounds/<%=eventground._id%>">View <%=eventground.title%></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }%>

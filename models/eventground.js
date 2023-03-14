@@ -3,7 +3,9 @@ const Schema = mongoose.Schema
 
 const EventgroundSchema = new Schema({
     title: String,
-    price: String,
+    image: String,
+    price: Number,
+    capacity: Number,
     description: String,
     location: String,
 })
