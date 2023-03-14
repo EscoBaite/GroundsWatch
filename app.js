@@ -3,6 +3,7 @@ const app = express()
 const path = require('path')
 const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
+const { eventgroundSchema } = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
@@ -25,6 +26,16 @@ mongoose.connect('mongodb://127.0.0.1:27017/groundswatch', { useCreateIndex: tru
         console.log(err)
     })
 
+const validateEventground = (req, res, next) => {
+    const { error } = eventgroundSchema.validate(req.body);
+        if (error) {
+            const msg = error.details.map(el => el.message).join(',')
+            throw new ExpressError(msg, 400)
+        } else {
+            next();
+        }
+}
+
 app.get('/', (req, res) => {
     res.render('home')
 })
@@ -38,7 +49,7 @@ app.get('/eventgrounds/new', (req, res) => {
     res.render('eventgrounds/new');
 })
 
-app.post('/eventgrounds', catchAsync(async (req, res) => {
+app.post('/eventgrounds', validateEventground, catchAsync(async (req, res) => {
     const eventground = new Eventground(req.body.eventground);
     await eventground.save();
     res.redirect(`/eventgrounds/${eventground._id}`)
@@ -54,7 +65,7 @@ app.get('/eventgrounds/:id/edit', catchAsync(async (req, res) => {
     res.render('eventgrounds/edit', {eventground})
 }))
 
-app.put('/eventgrounds/:id', catchAsync(async (req, res) => {
+app.put('/eventgrounds/:id', validateEventground, catchAsync(async (req, res) => {
     const { id } = req.params;
     const eventground = await Eventground.findByIdAndUpdate(id, { ...req.body.eventground });
     res.redirect(`/eventgrounds/${eventground._id}`)
