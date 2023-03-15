@@ -3,11 +3,12 @@ const app = express()
 const path = require('path')
 const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
-const { eventgroundSchema } = require('./schemas.js');
+const { eventgroundSchema, reviewSchema } = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 const Eventground = require('./models/eventground')
+const Review = require('./models/review');
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -36,6 +37,16 @@ const validateEventground = (req, res, next) => {
         }
 }
 
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('home')
 })
@@ -56,7 +67,7 @@ app.post('/eventgrounds', validateEventground, catchAsync(async (req, res) => {
 }))
 
 app.get('/eventgrounds/:id', catchAsync(async (req, res) => {
-    const eventground = await Eventground.findById(req.params.id)
+    const eventground = await Eventground.findById(req.params.id).populate('reviews')
     res.render('eventgrounds/details', {eventground})
 }))
 
@@ -76,6 +87,23 @@ app.delete('/eventgrounds/:id', catchAsync(async (req, res) => {
     await Eventground.findByIdAndDelete(id);
     res.redirect('/eventgrounds');
 }))
+
+app.post('/eventgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
+    const eventground = await Eventground.findById(req.params.id);
+    const review = new Review(req.body.review);
+    eventground.reviews.push(review);
+    await review.save();
+    await eventground.save();
+    res.redirect(`/eventgrounds/${eventground._id}`);
+}))
+
+app.delete('/eventgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Eventground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/eventgrounds/${id}`);
+}))
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
