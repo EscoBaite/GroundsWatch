@@ -7,10 +7,22 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+const User = require('./models/user')
 
+const userRoutes = require('./routes/users')
+const eventgroundRoutes = require('./routes/eventgrounds')
+const reviewRoutes = require('./routes/reviews')
 
-const eventgrounds = require('./routes/eventgrounds')
-const reviews = require('./routes/reviews')
+mongoose.connect('mongodb://127.0.0.1:27017/groundswatch', { useCreateIndex: true, useUnifiedTopology: true,  useNewUrlParser: true })
+    .then(() => {
+        console.log("Database CONNECTION OPEN!!!")
+    })
+    .catch(err => {
+        console.log("OH NO ERROR!!!!")
+        console.log(err)
+    })
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -33,25 +45,23 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 app.use(flash())
 
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser())
+
 app.use((req, res, next) => {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
+    res.locals.currentUser = req.user
+    res.locals.success = req.flash('success')
+    res.locals.error = req.flash('error')
     next();
 })
 
-mongoose.connect('mongodb://127.0.0.1:27017/groundswatch', { useCreateIndex: true, useUnifiedTopology: true,  useNewUrlParser: true })
-    .then(() => {
-        console.log("Database CONNECTION OPEN!!!")
-    })
-    .catch(err => {
-        console.log("OH NO ERROR!!!!")
-        console.log(err)
-    })
-
-
-
-app.use('/eventgrounds', eventgrounds)
-app.use('/eventgrounds/:id/reviews', reviews)
+app.use('/', userRoutes)
+app.use('/eventgrounds', eventgroundRoutes)
+app.use('/eventgrounds/:id/reviews', reviewRoutes)
 
 app.get('/', (req, res) => {
     res.render('home')

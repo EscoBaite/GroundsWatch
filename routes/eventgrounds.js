@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync')
 const ExpressError = require('../utils/ExpressError')
 const Eventground = require('../models/eventground')
 const { eventgroundSchema } = require('../schemas.js')
+const { isLoggedIn } = require('../middleware')
 
 const validateEventground = (req, res, next) => {
     const { error } = eventgroundSchema.validate(req.body);
@@ -20,11 +21,11 @@ router.get('/', catchAsync(async (req, res) => {
     res.render('eventgrounds/index', { eventgrounds })
 }))
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('eventgrounds/new')
 })
 
-router.post('/', validateEventground, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateEventground, catchAsync(async (req, res) => {
     const eventground = new Eventground(req.body.eventground)
     await eventground.save()
     req.flash('success', 'Successfully made a new eventground!')
@@ -40,7 +41,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('eventgrounds/details', {eventground})
 }))
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const eventground = await Eventground.findById(req.params.id)
     if (!eventground) {
         req.flash('error', 'Cannot find that eventground!');
@@ -49,14 +50,14 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
     res.render('eventgrounds/edit', {eventground})
 }))
 
-router.put('/:id', validateEventground, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateEventground, catchAsync(async (req, res) => {
     const { id } = req.params;
     const eventground = await Eventground.findByIdAndUpdate(id, { ...req.body.eventground });
     req.flash('success', 'Successfully updated the eventground!')
     res.redirect(`/eventgrounds/${eventground._id}`)
 }))
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Eventground.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted eventground')
