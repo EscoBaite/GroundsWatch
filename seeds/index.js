@@ -21,6 +21,7 @@ const seedDB = async () => {
         const price = Math.floor(Math.random()* 20) + 10
         const capacity = Math.floor(Math.random()* 5000)+ 100
         const eventG = new Eventground({
+            author: '641324ce31514603107adb80',
             location: `${cities[rand1000].city}, ${cities[rand1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
             image: 'https://source.unsplash.com/collection/9537244',
