@@ -24,10 +24,19 @@ const seedDB = async () => {
             author: '641324ce31514603107adb80',
             location: `${cities[rand1000].city}, ${cities[rand1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
-            image: 'https://source.unsplash.com/collection/9537244',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
             price,
-            capacity 
+            capacity,
+            images: [
+                {
+                    url: "https://res.cloudinary.com/dpne2hq8r/image/upload/v1679063930/GroundsWatch/fkh4fsqo9hu2hefddde7.jpg",  
+                    filename: "GroundsWatch/fkh4fsqo9hu2hefddde7"
+                },
+                {
+                    url: "https://res.cloudinary.com/dpne2hq8r/image/upload/v1679063932/GroundsWatch/ua2jyuudjabjdmjkp1md.jpg",
+                    filename: "GroundsWatch/ua2jyuudjabjdmjkp1md"
+                }
+            ]
         })
         await eventG.save()
     }

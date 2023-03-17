@@ -1,4 +1,5 @@
 const Eventground = require('../models/eventground')
+const { cloudinary } = require("../cloudinary")
 
 module.exports.index = async (req, res) => {
     const eventgrounds = await Eventground.find({})
@@ -11,8 +12,10 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createEventground = async (req, res) => {
     const eventground = new Eventground(req.body.eventground)
+    eventground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     eventground.author = req.user._id
     await eventground.save()
+    console.log(eventground)
     req.flash('success', 'Successfully made a new eventground!')
     res.redirect(`/eventgrounds/${eventground._id}`)
 }
@@ -42,7 +45,17 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateEventground = async (req, res) => {
     const { id } = req.params
+    console.log(req.body)
     const eventground = await Eventground.findByIdAndUpdate(id, { ...req.body.eventground })
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }))
+    eventground.images.push(...imgs)
+    await eventground.save()
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await eventground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    }
     req.flash('success', 'Successfully updated the eventground!')
     res.redirect(`/eventgrounds/${eventground._id}`)
 }
