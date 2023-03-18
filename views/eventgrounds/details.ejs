@@ -1,6 +1,8 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
+
+
 <div class="row">
   <div class="col-6">
     <div id="eventgroundCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -48,6 +50,9 @@
       
   </div>
   <div class="col-6">
+    <div id='map' style='width: 100%; height: 300px;'></div>
+
+
     <% if(currentUser){ %>
     <h2>Leave a Review</h2>
     <form action="/eventgrounds/<%=eventground._id%>/reviews" method="POST" class="mb-3 newGrounds" novalidate>
@@ -95,3 +100,10 @@
     <% } %>
 </div>
 </div>
+
+<script>
+    const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
+    const eventground = <%- JSON.stringify(eventground) %>
+</script>
+
+<script src="/scripts/showMap.js"></script>
