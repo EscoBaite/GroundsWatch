@@ -16,7 +16,7 @@ const sample = array => array[Math.floor(Math.random() * array.length)]
 
 const seedDB = async () => {
     await Eventground.deleteMany({})
-    for (let i = 0; i < 50; i++){
+    for (let i = 0; i < 300; i++){
         const rand1000 = Math.floor(Math.random()* 1000)
         const price = Math.floor(Math.random()* 20) + 10
         const capacity = Math.floor(Math.random()* 5000)+ 100
@@ -29,16 +29,19 @@ const seedDB = async () => {
             capacity,
             geometry: {
                 type: "Point",
-                coordinates: [-113.1331, 47.0202]
+                coordinates: [
+                    cities[rand1000].longitude,
+                    cities[rand1000].latitude
+                ]
             },
             images: [
                 {
-                    url: "https://res.cloudinary.com/dpne2hq8r/image/upload/v1679063930/GroundsWatch/fkh4fsqo9hu2hefddde7.jpg",  
-                    filename: "GroundsWatch/fkh4fsqo9hu2hefddde7"
+                    url: "https://res.cloudinary.com/dpne2hq8r/image/upload/v1679171836/GroundsWatch/bhmdzb9advaatfmqmz65.jpg",  
+                    filename: "GroundsWatch/bhmdzb9advaatfmqmz65"
                 },
                 {
-                    url: "https://res.cloudinary.com/dpne2hq8r/image/upload/v1679063932/GroundsWatch/ua2jyuudjabjdmjkp1md.jpg",
-                    filename: "GroundsWatch/ua2jyuudjabjdmjkp1md"
+                    url: "https://res.cloudinary.com/dpne2hq8r/image/upload/v1679171685/GroundsWatch/dio9nz3ghbjlcn2lfftc.jpg",
+                    filename: "GroundsWatch/dio9nz3ghbjlcn2lfftc"
                 }
             ]
         })
