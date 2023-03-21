@@ -6,7 +6,9 @@ const map = new mapboxgl.Map({
     center: eventground.geometry.coordinates, // starting position [lng, lat]
     zoom: 10, // starting zoom
     });
-    
+
+map.addControl(new mapboxgl.NavigationControl())
+
 new mapboxgl.Marker()
     .setLngLat(eventground.geometry.coordinates)
     .setPopup(
