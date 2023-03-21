@@ -18,8 +18,13 @@ const User = require('./models/user')
 const userRoutes = require('./routes/users')
 const eventgroundRoutes = require('./routes/eventgrounds')
 const reviewRoutes = require('./routes/reviews')
+const MongoStore = require('connect-mongo')
 
-mongoose.connect('mongodb://127.0.0.1:27017/groundswatch', { useCreateIndex: true, useUnifiedTopology: true,  useNewUrlParser: true })
+// const dbUrl = process.env.DB_URL
+const dbUrl = 'mongodb://127.0.0.1:27017/groundswatch'
+
+
+mongoose.connect(dbUrl, { useCreateIndex: true, useUnifiedTopology: true,  useNewUrlParser: true })
     .then(() => {
         console.log("Database CONNECTION OPEN!!!")
     })
@@ -36,7 +41,18 @@ app.use(methodOverride('_method'))
 app.engine('ejs', ejsMate)
 app.use(express.static(path.join(__dirname, 'public')))
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    secret: 'thisshouldbeabettersecret!',
+    touchAfter: 24 * 60 * 60
+})
+
+store.on('error', function (e) {
+    console.log('session store error', e)
+})
+
 const sessionConfig = {
+    store,
     secret: 'thisshouldbeabettersecret!',
     resave: false,
     saveUninitialized: true,
