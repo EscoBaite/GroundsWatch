@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "18.13.0"
+  },
   "name": "GroundsWatch",
   "version": "1.0.0",
   "description": "**Grounds Watch is a platform that connects hosts and event organizers to different venues. It features information about the venues like images, reviews, capacity, and prices.**",
