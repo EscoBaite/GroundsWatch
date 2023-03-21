@@ -20,8 +20,8 @@ const eventgroundRoutes = require('./routes/eventgrounds')
 const reviewRoutes = require('./routes/reviews')
 const MongoStore = require('connect-mongo')
 
-// const dbUrl = process.env.DB_URL
-const dbUrl = 'mongodb://127.0.0.1:27017/groundswatch'
+const dbUrl = process.env.DB_URL
+// const dbUrl = 'mongodb://127.0.0.1:27017/groundswatch'
 
 
 mongoose.connect(dbUrl, { useCreateIndex: true, useUnifiedTopology: true,  useNewUrlParser: true })
