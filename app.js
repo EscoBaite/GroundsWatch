@@ -33,12 +33,15 @@ mongoose.connect(dbUrl, { useCreateIndex: true, useUnifiedTopology: true,  useNe
         console.log(err)
     })
 
+// setting our templating engine to ejs
 app.set('view engine', 'ejs')
+// setting the views directory so I can use it from anywhere(joining current path with views path)
 app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.engine('ejs', ejsMate)
+// serving static files
 app.use(express.static(path.join(__dirname, 'public')))
 
 const store = MongoStore.create({
